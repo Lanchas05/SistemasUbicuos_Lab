@@ -1,0 +1,99 @@
+{
+  "project": {
+    "name": "VialSafe",
+    "stack": "MERN",
+    "repository": "SistemasUbicuos_Lab",
+    "current_phase": 1,
+    "phase_name": "Persistencia, Modelos Mongoose y Data Seeding"
+  },
+  "team": {
+    "active_user": "Carlos",
+    "teammate": "Alex",
+    "ownership": {
+      "carlos": [
+        "backend/config/db.js",
+        "backend/models/User.js",
+        "backend/models/TrafficSensor.js",
+        "backend/seeds/seedSensors.js"
+      ],
+      "alex_restricted": [
+        "backend/models/Accident.js",
+        "backend/models/Fine.js",
+        "backend/seeds/seedAccidents.js",
+        "backend/seeds/seedFines.js"
+      ]
+    }
+  },
+  "environment": {
+    "mongodb_atlas_created": true,
+    "env_configured": true,
+    "dependencies_installed": true,
+    "required_packages": [
+      "mongoose",
+      "dotenv",
+      "bcryptjs"
+    ],
+    "dataset_sensors_ready": true,
+    "dataset_path": "MongoDB Atlas -> Vialsafe.Anthem_CTC_PuntoMedidaTrafico",
+    "sensors_seeded": 4373,
+    "sensors_source_valid": 4373,
+    "sensors_source_empty_docs": 49459
+  },
+  "tasks": [
+    {
+      "id": "step_1_env_deps",
+      "title": "Verificar package.json, dependencias y .env con DB_URI",
+      "status": "completed",
+      "target_files": [
+        "backend/package.json",
+        "backend/.env",
+        ".gitignore"
+      ]
+    },
+    {
+      "id": "step_2_db_connection",
+      "title": "Implementar y probar conexión a MongoDB Atlas",
+      "status": "completed",
+      "target_files": [
+        "backend/config/db.js"
+      ]
+    },
+    {
+      "id": "step_3_model_user",
+      "title": "Crear modelo User con hash bcryptjs y validación",
+      "status": "completed",
+      "target_files": [
+        "backend/models/User.js"
+      ]
+    },
+    {
+      "id": "step_4_model_sensor",
+      "title": "Crear modelo TrafficSensor con GeoJSON e índice 2dsphere",
+      "status": "completed",
+      "target_files": [
+        "backend/models/TrafficSensor.js"
+      ]
+    },
+    {
+      "id": "step_5_seed_sensors",
+      "title": "Desarrollar y ejecutar script de carga masiva de sensores",
+      "status": "completed",
+      "target_files": [
+        "backend/seeds/seedSensors.js"
+      ]
+    }
+  ],
+  "next_action": null,
+  "phase_status": "completed",
+  "notes": [
+    "No modificar ni crear archivos asignados a Alex.",
+    "Recordar orden estricto GeoJSON: [longitud, latitud].",
+    "Paso 2 verificado: conexión OK a MongoDB Atlas (base de datos 'Vialsafe'; MongoDB distingue mayúsculas: 'vialsafe' daba error de conflicto).",
+    "Paso 3 verificado: hash bcrypt (60 chars), comparePassword OK, hash intacto al actualizar otros campos.",
+    "Paso 4 verificado: insert + consulta $near por proximidad y rechazo de coordenadas inválidas.",
+    "Paso 5 verificado: seeding desde Atlas completado e idempotente. 4373 sensores en 'trafficsensors', índice 2dsphere activo.",
+    "AVISO: Anthem_CTC_PuntoMedidaTrafico tiene 53832 documentos, pero 49459 están vacíos (solo _id, sin id/nombre/coordenadas). Solo 4373 son registros válidos; el seed los descarta y los contabiliza.",
+    "La base 'Vialsafe' también contiene otras colecciones crudas de Madrid (Callejero, Accidentalidad, BicicletasAforo, Multas_XXX, PeatonesAforo).",
+    "Fase 1 (Persistencia y Modelos) finalizada. Siguiente fase pendiente de definir: API REST (Express) y frontend React."
+  ]
+}
